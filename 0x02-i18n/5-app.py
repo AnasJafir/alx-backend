@@ -23,7 +23,7 @@ users = {
 }
 
 
-def get_user():
+def get_user() -> Union[Dict, None]:
     """
     Returns a user dictionary
     None if the ID cannot be found
@@ -36,13 +36,13 @@ def get_user():
 
 
 @app.before_request
-def before_request():
+def before_request() -> None:
     """ Makes sure the user is logged in before each request. """
     g.user = get_user()
 
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> str:
     """ Determines the best language to use for the user. """
     locale = request.args.get('locale')
     if locale in app.config['LANGUAGES']:
@@ -51,7 +51,7 @@ def get_locale():
 
 
 @app.route("/", strict_slashes=False)
-def index():
+def index() -> str:
     """
     Renders the '1-index.html' template and returns it as a response.
 
