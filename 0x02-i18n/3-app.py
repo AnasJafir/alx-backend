@@ -35,8 +35,8 @@ def index():
     """
     return render_template(
             '3-index.html',
-            title=gettext('Welcome to Holberton'),
-            header=gettext('Hello world!')
+            home_title=gettext('Welcome to Holberton'),
+            home_header=gettext('Hello world!')
             )
 
 
