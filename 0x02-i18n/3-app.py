@@ -22,7 +22,6 @@ def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
-
 @app.route("/", strict_slashes=False)
 def index():
     """
@@ -34,7 +33,11 @@ def index():
     Returns:
         A rendered HTML template.
     """
-    return render_template('3-index.html', title=gettext('Welcome to Holberton'), header=gettext('Hello world!'))
+    return render_template(
+            '3-index.html',
+            title=gettext('Welcome to Holberton'),
+            header=gettext('Hello world!')
+            )
 
 
 if __name__ == "__main__":
