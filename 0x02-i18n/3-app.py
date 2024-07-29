@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-""" Basic Flask app"""
+"""Basic Flask app with internationalization support"""
+from flask_babel import Babel
 from flask import Flask, render_template, request
-from flask_babel import Babel, gettext
 
 
 class Config:
-    """Config class for the Babel object"""
+    """Flask Babel configuration"""
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
@@ -13,33 +13,21 @@ class Config:
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.url_map.strict_slashes = False
 babel = Babel(app)
 
 
 @babel.localeselector
 def get_locale() -> str:
-    """ Determines the best language to use for the user. """
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    """Retrieves the locale for a web page"""
+    return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
-@app.route("/", strict_slashes=False)
-def index() -> str:
-    """
-    Renders the '1-index.html' template and returns it as a response.
-
-    This function is a Flask route that is mapped to the root URL ("/").
-    It is responsible for displaying the home page of the application.
-
-    Returns:
-        A rendered HTML template.
-    """
-    return render_template(
-            '3-index.html',
-            home_title=gettext('Welcome to Holberton'),
-            home_header=gettext('Hello world!')
-            )
+@app.route('/')
+def get_index() -> str:
+    """index page"""
+    return render_template('3-index.html')
 
 
-if __name__ == "__main__":
-    """ Runs the Flask app. """
-    app.run()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
